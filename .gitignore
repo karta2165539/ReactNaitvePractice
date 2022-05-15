@@ -105,3 +105,6 @@ dist
 
 # setting file
 .vscode
+
+# .DS_store file 
+.DS_store
