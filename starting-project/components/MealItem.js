@@ -6,26 +6,44 @@ import {
   Image,
   Platform,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import MealDetail from "./MealDetails";
+import MealDetails from "./MealDetails";
 
-function MealItem({ title, imageUrl, duration, complexity, affordability }) {
+function MealItem({
+  id,
+  title,
+  imageUrl,
+  duration,
+  complexity,
+  affordability,
+  onPress,
+}) {
+  const navigation = useNavigation();
+
+  function selectMealItemHandler() {
+    navigation.navigate("MealDetails", {
+      mealId: id,
+    });
+  }
+
   return (
     <View style={styles.mealItem}>
-      <Pressable 
-        android_ripple={{ color: '#ccc' }}
-        style={({ pressed }) => (pressed ? styles.buttonPressed : null )}
+      <Pressable
+        android_ripple={{ color: "#ccc" }}
+        style={({ pressed }) => (pressed ? styles.buttonPressed : null)}
+        onPress={selectMealItemHandler}
       >
         <View style={styles.innerContainer}>
           <View>
             <Image source={{ uri: imageUrl }} style={styles.image} />
             <Text style={styles.title}>{title}</Text>
           </View>
-          <View style={styles.details}>
-            <Text style={styles.detailsItem}>{duration}m</Text>
-            <Text style={styles.detailsItem}>{complexity.toUpperCase()}</Text>
-            <Text style={styles.detailsItem}>
-              {affordability.toUpperCase()}
-            </Text>
-          </View>
+          <MealDetails 
+            duration={duration} 
+            affordability={affordability} 
+            complexity={complexity} 
+          />
         </View>
       </Pressable>
     </View>
@@ -47,8 +65,8 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   innerContainer: {
-     borderRadius: 8,
-     overflow: 'hidden'
+    borderRadius: 8,
+    overflow: "hidden",
   },
   image: {
     width: "100%",
@@ -72,5 +90,5 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.5,
-  }
+  },
 });
